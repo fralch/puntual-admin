@@ -17,16 +17,16 @@ return (
             <Text>11:07 AM </Text>
         </View>
         <TouchableOpacity style={[styles.contenedor, {zIndex: -1, marginTop: -25, backgroundColor: '#EA4D4A',}]}  activeOpacity={0.7}>
-            <Text>Personal</Text>
+            <Text style={styles.texto} >Personal</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.contenedor, {zIndex: -2, marginTop: -25, backgroundColor: '#EF772A'} ]} activeOpacity={0.7}>
-            <Text>Asistencias</Text>
+            <Text style={styles.texto}>Asistencias</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.contenedor, {zIndex: -3, marginTop: -25, backgroundColor: '#FAD354'} ]} activeOpacity={0.7}>
-            <Text>Tardanzas</Text>
+            <Text style={styles.texto}>Tardanzas</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.contenedor, {zIndex: -4, marginTop: -25, backgroundColor: '#A77F6A'} ]} activeOpacity={0.7}>
-            <Text>Faltas</Text>
+            <Text style={styles.texto}>Faltas</Text>
         </TouchableOpacity>
     </View>
   );
@@ -45,6 +45,12 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
     
   },
+  texto: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+
+  }
  
 });
 
