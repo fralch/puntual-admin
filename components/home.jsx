@@ -16,32 +16,34 @@ return (
 
             <Text>11:07 AM </Text>
         </View>
-        <View style={[styles.contenedor, {zIndex: -1, marginTop: -30, backgroundColor: '#332F8C',}]}>
+        <TouchableOpacity style={[styles.contenedor, {zIndex: -1, marginTop: -25, backgroundColor: '#EA4D4A',}]}  activeOpacity={0.7}>
             <Text>Personal</Text>
-        </View>
-        <View style={[styles.contenedor, {zIndex: -2, marginTop: -30, backgroundColor: '#5B56ED'} ]}>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.contenedor, {zIndex: -2, marginTop: -25, backgroundColor: '#EF772A'} ]} activeOpacity={0.7}>
             <Text>Asistencias</Text>
-        </View>
-        <View style={[styles.contenedor, {zIndex: -3, marginTop: -30, backgroundColor: '#42B9F3'} ]}>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.contenedor, {zIndex: -3, marginTop: -25, backgroundColor: '#FAD354'} ]} activeOpacity={0.7}>
             <Text>Tardanzas</Text>
-        </View>
-        <View style={[styles.contenedor, {zIndex: -4, marginTop: -30, backgroundColor: '#F29C9C'} ]}>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.contenedor, {zIndex: -4, marginTop: -25, backgroundColor: '#A77F6A'} ]} activeOpacity={0.7}>
             <Text>Faltas</Text>
-        </View>
+        </TouchableOpacity>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000',
   },
   contenedor: {
     alignItems: 'center',
-    backgroundColor: '#252540',
+    backgroundColor: '#243135',
     justifyContent: 'center',
     height : height * 0.20,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+    
   },
  
 });
