@@ -9,12 +9,12 @@ const { width, height } = Dimensions.get('window');
 function Home() {
 return (
     <View style={styles.container}>
-        <View style={[styles.contenedor, {height: height*0.30}]}>
-            <Text>Logo</Text>
-            <Text>Sistema de Gestion de Personal</Text>
-            <Text>Huancayo, 24 Octubre 2023</Text>
+        <View style={[styles.contenedor, {height: height*0.32}]}>
+            <Image style={{width: width*0.4, height: 60, marginVertical:20}} source={require('../assets/img/logo2.png')} />
+            <Text style={[styles.texto, {fontSize:12, fontWeight: 'normal'}]} >Sistema de Gestion de Personal</Text>
+            <Text style={[styles.texto, {fontSize:20, fontWeight: 'normal'}]} >Huancayo, 24 Octubre 2023</Text>
 
-            <Text>11:07 AM </Text>
+            <Text style={[styles.texto, {fontSize:35, fontWeight: 'normal', marginTop:20}]}>11:07 AM </Text>
         </View>
         <TouchableOpacity style={[styles.contenedor, {zIndex: -1, marginTop: -25, backgroundColor: '#EA4D4A',}]}  activeOpacity={0.7}>
             <Text style={styles.texto} >Personal</Text>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   contenedor: {
     alignItems: 'center',
-    backgroundColor: '#243135',
+    backgroundColor: '#333',
     justifyContent: 'center',
     height : height * 0.20,
     borderBottomLeftRadius: 30,
