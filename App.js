@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { removeSesion, getSesion } from './hooks/handleSession';
 
 import Home from './components/home';
+import Personal from './components/personal';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,7 @@ export default function App() {
     <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen name="Home" options={{headerShown: false}} component={Home} />
+      <Stack.Screen name="Personal" options={{headerShown: false}} component={Personal} />
     </Stack.Navigator>
   </NavigationContainer>
   );

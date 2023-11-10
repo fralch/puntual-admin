@@ -1,12 +1,13 @@
 import React, { useState , useEffect} from 'react';
 import { View, Text, StyleSheet, Image, TextInput, 
         TouchableOpacity, ScrollView, Animated, Dimensions  } from 'react-native';
-
-
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
 function Home() {
+  const navigation = useNavigation();
+
 return (
     <View style={styles.container}>
         <View style={[styles.contenedor, {height: height*0.32}]}>
@@ -16,7 +17,11 @@ return (
 
             <Text style={[styles.texto, {fontSize:35, fontWeight: 'normal', marginTop:20}]}>11:07 AM </Text>
         </View>
-        <TouchableOpacity style={[styles.contenedor, {zIndex: -1, marginTop: -25, backgroundColor: '#EA4D4A',}]}  activeOpacity={0.7}>
+        <TouchableOpacity 
+          style={[styles.contenedor, {zIndex: -1, marginTop: -25, backgroundColor: '#EA4D4A',}]}  
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('Personal')}
+        >
             <Text style={styles.texto} >Personal</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.contenedor, {zIndex: -2, marginTop: -25, backgroundColor: '#EF772A'} ]} activeOpacity={0.7}>
