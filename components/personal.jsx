@@ -1,110 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList , StyleSheet, Image} from 'react-native';
+import React, { useState, useEffect , useRef} from 'react';
+import { View, Text, FlatList, StyleSheet, Image ,  Animated , TouchableOpacity } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+import Lista_personal from './lista.jsx';
 
 function Personal() {
+
   const [personal, setPersonal] = useState([
     {
       id: 1,
       nombre: 'Juan Perez',
       puesto: 'Gerente',
-      celular : '999999999',
+      celular: '999999999',
     },
     {
       id: 2,
       nombre: 'Maria Perez',
       puesto: 'Gerente',
-      celular : '999999999',
+      celular: '999999999',
     },
     {
       id: 3,
       nombre: 'Pedro Perez',
       puesto: 'Gerente',
-      celular : '999999999',
+      celular: '999999999',
     },
     {
       id: 4,
       nombre: 'Juan Perez',
       puesto: 'Gerente',
-      celular : '999999999',
+      celular: '999999999',
     },
-    {
-      id: 5,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 6,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 7,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 8,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 9,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 10,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 11,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 12,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 13,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    {
-      id: 14,
-      nombre: 'Juan Perez',
-      puesto: 'Gerente',
-      celular : '999999999',
-    },
-    
-    
-   
   ]);
 
-  const randomImage = () => {
-    const random = Math.floor(Math.random() * 2) + 1;
-    return random >1 ?<Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require('../assets/img/user.png')} /> :
-    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require('../assets/img/user2.png')} /> 
-  }
+
 
   useEffect(() => {
-    
+
 
   }, []);
 
   return (
-    <View style={styles.container} >
+    <GestureHandlerRootView style={styles.container} >
       <View style={styles.cabecera}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Personal</Text>
       </View>
@@ -112,20 +49,15 @@ function Personal() {
         data={personal}
         renderItem={({ item }) => (
           <View style={styles.lista}>
-              <View style={{  flexDirection: 'row',alignItems: 'center',}}>
-                {randomImage()}
-                <View style={{ marginLeft: 20,flexDirection: 'column',justifyContent: 'center',}} >
-                  <Text style={{color: '#EA4D4A',fontSize: 16,fontWeight: 'bold'}}>{item.nombre}</Text>
-                  <Text style={{color: '#fff',fontSize: 13}}>{item.puesto}</Text>
-                  <Text style={{color: '#fff',fontSize: 13}}>{item.celular}</Text> 
-                </View>  
-              </View>
-                 
+            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+              <Lista_personal />
+            </View>
+
           </View>
         )}
         keyExtractor={(item) => item.id.toString()}
       />
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
@@ -145,7 +77,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#444',
 
   },
-  cabecera:{
+  cabecera: {
     backgroundColor: '#302E34',
     height: 50,
     justifyContent: 'center',
@@ -153,7 +85,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#444',
   },
-  
-  
-    
+
+
+
 });
