@@ -50,7 +50,7 @@ function Personal() {
         renderItem={({ item }) => (
           <View style={styles.lista}>
             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-              <Lista_personal />
+                <Lista_personal />
             </View>
 
           </View>
@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
 
   },
   lista: {
-    padding: 20,
-    backgroundColor: '#302E34',
     borderBottomWidth: 1,
     borderBottomColor: '#444',
 
