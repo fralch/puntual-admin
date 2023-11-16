@@ -31,12 +31,15 @@ function Lista_personal() {
                     handleRelease(e);
                 }
             }}
+            
         >
-            <Animated.View style={[styles.container, { transform: [{ translateX: translationX }] }]}>
-                <Text>Desliza hacia la izquierda</Text>
-                <TouchableOpacity onPress={() => console.log('Elemento tocado')}>
-                    <Text>Acción</Text>
-                </TouchableOpacity>
+            <Animated.View style={[styles.container,  { transform: [{ translateX: translationX }] }]}>
+                <View style={{ marginLeft: 20,flexDirection: 'column',justifyContent: 'center',}} >
+                  <Text style={{color: '#EA4D4A',fontSize: 16,fontWeight: 'bold'}}>Nombre</Text>
+                  <Text style={{color: '#fff',fontSize: 13}}>Puesto</Text>
+                  <Text style={{color: '#fff',fontSize: 13}}>Celular</Text> 
+                </View>  
+               
             </Animated.View>
         </PanGestureHandler>
     );
@@ -46,25 +49,11 @@ export default Lista_personal;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: '#fff',
-        padding: 10,
-        margin: 10,
-        borderRadius: 10,
-        elevation: 5,
+        
+        // backgroundColor: '#302E34',
     },
-    cabecera: {
-        backgroundColor: '#000',
-        padding: 10,
-        alignItems: 'center',
-    },
-    lista: {
-        backgroundColor: '#fff',
-        padding: 10,
-        margin: 10,
-        borderRadius: 10,
-        elevation: 5,
-    },
+  
+   
 });
