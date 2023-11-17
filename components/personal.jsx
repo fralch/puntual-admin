@@ -37,7 +37,6 @@ function Personal() {
 
   useEffect(() => {
 
-
   }, []);
 
   return (
@@ -50,7 +49,7 @@ function Personal() {
         renderItem={({ item }) => (
           <View style={styles.lista}>
             <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                <Lista_personal />
+                <Lista_personal parametros={{nombre: item.nombre, puesto: item.puesto, celular: item.celular}} />
             </View>
 
           </View>
