@@ -24,7 +24,10 @@ return (
         >
             <Text style={styles.texto} >Personal</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.contenedor, {zIndex: -2, marginTop: -25, backgroundColor: '#EF772A'} ]} activeOpacity={0.7}>
+        <TouchableOpacity style={[styles.contenedor, {zIndex: -2, marginTop: -25, backgroundColor: '#EF772A'} ]} 
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('Asistencias')}
+          >
             <Text style={styles.texto}>Asistencias</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.contenedor, {zIndex: -3, marginTop: -25, backgroundColor: '#FAD354'} ]} activeOpacity={0.7}>
