@@ -203,7 +203,7 @@ export default function Asistencias() {
 
                 </View>
             </View>
-            <Modal  animationType="slide" transparent={true} visible={modalVisible}     backdropOpacity={0.5}>
+            <Modal  animationType="slide" transparent={true} visible={modalVisible} >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Filtrar usuario</Text>
