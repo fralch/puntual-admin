@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, Animated, TouchableOpacity } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome  } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 function Lista_personal(props) {
+  const navigation = useNavigation();
   const translationX = useRef(new Animated.Value(0)).current;
   const { nombre, puesto, celular } = props.parametros;
 
@@ -15,7 +17,8 @@ function Lista_personal(props) {
 
   const handleRelease = (e) => {
     if (e.nativeEvent.translationX > 100) {
-      console.log('funciono');
+      const id = 1;
+      navigation.navigate('ListaPersonalDetalle',{id});
     }
 
     Animated.spring(translationX, {
@@ -24,9 +27,22 @@ function Lista_personal(props) {
     }).start();
   };
   const randomImage = () => {
-    const random = Math.floor(Math.random() * 2) + 1;
-    return random >1 ?<Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require('../assets/img/user.png')} /> :
-    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require('../assets/img/user2.png')} /> 
+    return <View style={{
+      width: 50,
+      height: 50,
+      borderRadius: 60,
+      backgroundColor: '#EA4D4A',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 3,
+    }}>
+      <FontAwesome name="user" size={35} color="white" />
+    </View>
+  }
+
+  const ir_detalle_personal = () => {
+    const id = 1;
+    navigation.navigate('ListaPersonalDetalle',{id});
   }
 
 
@@ -50,8 +66,8 @@ function Lista_personal(props) {
                 <Text style={{ color: '#fff', fontSize: 13 }}>{celular}</Text>
               </View>
             </View>
-            <TouchableOpacity onPress={() => console.log('llamando')}>
-              <MaterialIcons name="keyboard-arrow-right" size={24} color="#EA4D4A" />
+            <TouchableOpacity onPress={() => ir_detalle_personal()}>
+              <MaterialIcons name="keyboard-arrow-right" size={35} color="#EA4D4A" />
             </TouchableOpacity>
           </View>
         </Animated.View>
