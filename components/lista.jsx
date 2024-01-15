@@ -16,7 +16,7 @@ function Lista_personal(props) {
   );
 
   const handleRelease = (e) => {
-    if (e.nativeEvent.translationX > 100) {
+    if (e.nativeEvent.translationX > 200) {
       const id = 1;
       navigation.navigate('ListaPersonalDetalle',{id});
     }
@@ -57,7 +57,7 @@ function Lista_personal(props) {
         }}
       >
         <Animated.View style={[styles.animated, { transform: [{ translateX: translationX }] }]}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 20, }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 0, }}>
             <View style={{  flexDirection: 'row' }} >
               {randomImage()}
               <View style={{ marginLeft: 20, flexDirection: 'column', justifyContent: 'center', }}>
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     backgroundColor: '#302E34',
+    marginRight: 40
   },
   animated: {
     flex: 1,

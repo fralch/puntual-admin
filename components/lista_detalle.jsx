@@ -9,20 +9,24 @@ function ListaPersonalDetalle(props) {
     // componente para ver el detalle de los datos del personal 
     // recibe como parametro el id del personal
     const { id } = props.route.params;
-    console.log(id);
+    console.log(typeof id);
     const [personal, setPersonal] = useState({
-        id: 1,
-        nombre: 'Juan Perez',
-        puesto: 'Gerente',
+        id: 0,
+        nombre: 'Ingresar nombre',
+        puesto: 'Ingresar puesto',
         celular: '999999999',
-        correo: 'faef@faefeoiw.com',
-        direccion: 'Jr. Las Flores 123',
-        dni: '12345678',
+        correo: 'Ingresar correo',
+        direccion: 'Ingresar direccion',
+        dni: 'Ingresar DNI',
         fecha_nacimiento: '12/12/1990',
         fecha_ingreso: '12/12/1990',
         estado: 'Activo',
     });
     useEffect(() => {
+        if(id==0){
+            setEditable(true);
+
+        }
         // aqui se debe hacer la peticion al servidor para obtener los datos del personal
         // y se debe guardar en el estado personal
     }, []);
@@ -48,8 +52,8 @@ function ListaPersonalDetalle(props) {
                         <MaterialIcons name="person" size={35} color="white" />
                     </View>
                     <View style={{ marginLeft: 20, flexDirection: 'column', justifyContent: 'center', }}>
-                        <Text style={{ color: '#EA4D4A', fontSize: 20, fontWeight: 'bold' }}>{personal.nombre}</Text>
-                        <Text style={{ color: '#fff', fontSize: 16 }}>{personal.puesto}</Text>
+                        <TextInput style={{ color: '#EA4D4A', fontSize: 20, fontWeight: 'bold',borderWidth: !editable ? 0:1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5 , backgroundColor: !editable ? 'transparent' : '#ccc'}} editable={editable}>{personal.nombre}</TextInput>
+                        <TextInput style={{ color:!editable ? '#fff' : 'black', fontSize: 16 , borderWidth: !editable ? 0:1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5 , backgroundColor: !editable ? 'transparent' : '#ccc'}} editable={editable}>{personal.puesto}</TextInput>
                     </View>
                 </View>
                 <View style={{ flexDirection: 'colum', alignItems: 'center', marginTop: 20 }}>
