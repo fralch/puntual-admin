@@ -203,7 +203,7 @@ export default function Asistencias() {
 
                 </View>
             </View>
-            <Modal  animationType="slide" transparent={true} visible={modalVisible} >
+            <Modal  animationType="slide" transparent={true} visible={modalVisible}     backdropOpacity={0.5}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Filtrar usuario</Text>
@@ -285,6 +285,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
 
     },
     openButton: {
