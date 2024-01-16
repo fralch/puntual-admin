@@ -1,15 +1,26 @@
 import React, { useEffect, useState, } from 'react';
 import {
     View, Text, StyleSheet, ScrollView, Modal, Image, TouchableHighlight, Dimensions,
-    TouchableOpacity, TextInput
+    TouchableOpacity, TextInput, FlatList
 } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, AntDesign  } from '@expo/vector-icons';
 
 export default function Asistencias() {
     const [ancho, setAncho] = useState(Dimensions.get('window').width);
+    const [alto, setAlto] = useState(Dimensions.get('window').height);
+    const [buscarUsuario, setBuscarUsuario] = useState('');
+    const [sugerencias, setSugerencias] = useState([]);
+
+    const usuarios = [
+       'Frank Cairampoma Castro',
+       'Jose',
+         'Juan',    
+         'Pedro',
+    ]; //solo para pruebas
+
 
     const varDateDesde = () => {
         const date = new Date();
@@ -18,7 +29,7 @@ export default function Asistencias() {
     }
 
     const [modalVisible, setModalVisible] = useState(false);
-    
+    const [usuarioFiltro, setUsuarioFiltro] = useState(''); //solo para pruebas
     const [date_desde, setDateDesde] = useState(varDateDesde());
     const [date_hasta, setDateHasta] = useState(new Date());
     const [datos_tabla, setDatosTabla] = useState([
@@ -59,8 +70,8 @@ export default function Asistencias() {
         ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
         ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
         ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-    ]);
-
+    ]);  //solo para pruebas
+ 
     const navigation = useNavigation();
 
 
@@ -125,6 +136,36 @@ export default function Asistencias() {
 
     }
 
+    const buscarSugerencias = (inputText) => {
+       if(inputText.length > 0){
+        const newData = usuarios.filter(
+            function (item) {
+              const itemData = item ? item.toUpperCase() : ''.toUpperCase();
+              const textData = inputText.toUpperCase();
+              return itemData.indexOf(textData) > -1;
+            }
+          );
+          setSugerencias(newData);
+        }else{
+            setSugerencias([]);
+        }
+      };
+    
+      const renderSugerencia = ({ item }) => (
+        <TouchableOpacity style={styles.sugerencia} onPress={() => {
+            setUsuarioFiltro(item);
+            setModalVisible(!modalVisible);
+            setSugerencias([]);
+        }}>
+            <Text style={{ color: 'gray', fontSize: 16, fontWeight: 'bold' }}>
+                {item} 
+            </Text>
+            
+
+        </TouchableOpacity>
+      );
+
+
     return (
         <View style={[styles.container, { marginTop: 0 }]}>
             <View style={styles.cabecera}>
@@ -161,7 +202,7 @@ export default function Asistencias() {
 
                 <View style={styles.footer}>
                     <View style={{
-                        flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10
+                        flexDirection: usuarioFiltro ? 'column': 'row' , alignItems: 'center', justifyContent: 'center', marginBottom: 10
                     }}
                     >
                         <View>
@@ -185,6 +226,18 @@ export default function Asistencias() {
                             </View>
                         </View>
 
+                       {
+                        usuarioFiltro.length > 0 ?
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop:10}}>
+                            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', marginBottom:10 }}>Usuario: </Text>
+                            <TouchableOpacity onPress={() => setModalVisible(true)} style={{
+                                flexDirection: 'row', alignItems: 'center', backgroundColor: "#3d3b3a",
+                                borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, justifyContent: 'center'
+                            }}>
+                                <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{usuarioFiltro}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        :
                         <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', 
                         justifyContent: 'center', backgroundColor: '#EF772A', padding: 10, 
                         borderRadius: 5, marginLeft: 20, marginRight: 10
@@ -193,6 +246,7 @@ export default function Asistencias() {
                          >
                             <FontAwesome name="filter" size={24} color="white" />
                         </TouchableOpacity>
+                       }
 
                     </View>
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, backgroundColor: '#EF772A', padding: 10, borderRadius: 5, marginBottom: 20 }}
@@ -204,23 +258,36 @@ export default function Asistencias() {
                 </View>
             </View>
             <Modal  animationType="slide" transparent={true} visible={modalVisible} >
-                <View style={styles.centeredView}>
+                <View style={{...styles.centeredView, width: ancho}}>
                     <View style={styles.modalView}>
                         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Filtrar usuario</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 20 }}>
-                            <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Nombre" placeholderTextColor="#fff" />
+                            <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Nombre" placeholderTextColor="#fff" 
+                                onChangeText={(text) => {
+                                    setBuscarUsuario(text);
+                                    buscarSugerencias(text);
+                                  }}
+                            />
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EF772A', padding: 10, borderRadius: 5, marginLeft: 20, marginRight: 10 }}>
                                 <FontAwesome name="search" size={24} color="white" />
                             </TouchableOpacity>
+                        </View>
+                        <View style={styles.sugerenciasContainer}>
+                        <FlatList
+                            data={sugerencias}
+                            renderItem={renderSugerencia}
+                            keyExtractor={(item) => item}
+                        />
                         </View>
                                 
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#EF772A" }}
                             onPress={() => {
-                                setModalVisible(false);
+                                setSugerencias([]);
+                                setModalVisible(!modalVisible);
                             }}
                         >
-                            <Text style={styles.textStyle}>Hide Modal</Text>
+                            <Text style={{color:'white'}}>Cerrar</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -304,6 +371,27 @@ const styles = StyleSheet.create({
 
     
     },
+    sugerenciasContainer:{
+        borderRadius: 5,
+        padding: 5,
+        marginHorizontal: 10,
+        width: 200,
+        marginTop: 10,
+        marginBottom: 20,
+      },
+      sugerencia:{
+        backgroundColor: '#3d3b3a',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 5,
+        marginHorizontal: 10,
+        borderRadius: 5,
+        marginBottom: 5,
+        padding: 10,
+
+      },
+    
 
 
 });
