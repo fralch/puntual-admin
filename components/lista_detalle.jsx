@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Switch } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Switch, Modal } from 'react-native';
 import { MaterialIcons, Feather   } from '@expo/vector-icons';
 
 
 function ListaPersonalDetalle(props) {
     const [isEnabled, setIsEnabled] = useState(false);
     const [editable, setEditable] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+
     // componente para ver el detalle de los datos del personal 
     // recibe como parametro el id del personal
     const { id } = props.route.params;
@@ -18,8 +20,7 @@ function ListaPersonalDetalle(props) {
         correo: 'Ingresar correo',
         direccion: 'Ingresar direccion',
         dni: 'Ingresar DNI',
-        fecha_nacimiento: '12/12/1990',
-        fecha_ingreso: '12/12/1990',
+        ingreso_m: '8:00',
         estado: 'Activo',
     });
     useEffect(() => {
@@ -77,21 +78,16 @@ function ListaPersonalDetalle(props) {
                         </TextInput>
                     </View>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>DNI: </Text>
                         <TextInput style={{ height: 30, color:!editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0:1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5 , backgroundColor: !editable ? 'transparent' : '#ccc'}} editable={editable}>
                             {personal.dni}
                         </TextInput>
                     </View>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-                        <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Fecha de Ingreso: </Text>
-                        <TextInput style={{ height: 30, color:!editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0:1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5 , backgroundColor: !editable ? 'transparent' : '#ccc'}} editable={editable}>
-                            {personal.fecha_ingreso}
-                        </TextInput>
-                    </View>
+                  
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 0 }}>
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Estado: </Text>
                         <Switch
                             trackColor={{ false: '#767577', true: '#81b0ff' }}
@@ -101,6 +97,13 @@ function ListaPersonalDetalle(props) {
                             value={personal.estado}
                         />
                     </View>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20,backgroundColor: '#EA4D4A', padding: 10, borderRadius: 5}}
+                        onPress={() => setModalVisible(true)}
+                    >
+                        <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', marginRight:10 }}>Horarios</Text>
+                        <Feather name="clock" size={24} color="white" />
+                    </TouchableOpacity>
+
 
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20,backgroundColor: '#EA4D4A', padding: 10, borderRadius: 5}}
                         onPress={() => setEditable(!editable)}>
@@ -117,8 +120,42 @@ function ListaPersonalDetalle(props) {
                             </>
                         }
                     </TouchableOpacity>
-
-
+                    
+                    <Modal  animationType="slide" transparent={true} visible={modalVisible} >
+                        <View style={{...styles.centeredView}}>
+                            <View style={styles.modalView}>
+                                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Horario laboral</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 20 }}>
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Ingreso mañanas" placeholderTextColor="gray" />
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Salida mañanas" placeholderTextColor="gray" />
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Ingreso tardes" placeholderTextColor="gray" />
+                                </View>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Salida tardes" placeholderTextColor="gray" />
+                                </View>
+                                <View style={styles.sugerenciasContainer}>
+                               
+                                        
+                                <View style={{alignItems: 'center',justifyContent: 'center'}}>
+                                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#EA4D4A",marginBottom:10 }}>
+                                        <Text style={{color:'white'}}>Guardar</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#222" }}
+                                        onPress={() => {
+                                            setModalVisible(!modalVisible);
+                                        }}
+                                    >
+                                        <Text style={{color:'white'}}>Cerrar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            </View>
+                        </View>
+                    </Modal>
 
                 </View>
             </View>
@@ -157,5 +194,48 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
 
+    },
+    openButton: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+
+    },
+    modalView:{
+        margin: 20,
+        backgroundColor: '#302E34',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+
+    
+    },
+    sugerenciasContainer:{
+        borderRadius: 5,
+        padding: 5,
+        marginHorizontal: 10,
+        width: 200,
+        marginTop: 10,
+        marginBottom: 20,
+      },
+      sugerencia:{
+        backgroundColor: '#3d3b3a',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 5,
+        marginHorizontal: 10,
+        borderRadius: 5,
+        marginBottom: 5,
+        padding: 10,
+
+      },
 });
