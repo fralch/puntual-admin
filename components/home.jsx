@@ -30,10 +30,14 @@ return (
           >
             <Text style={styles.texto}>Asistencias</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.contenedor, {zIndex: -3, marginTop: -25, backgroundColor: '#FAD354'} ]} activeOpacity={0.7}>
+        <TouchableOpacity style={[styles.contenedor, {zIndex: -3, marginTop: -25, backgroundColor: '#FAD354'} ]} activeOpacity={0.7}
+          onPress={() => navigation.navigate('Tardanzas')}
+        >
             <Text style={styles.texto}>Tardanzas</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.contenedor, {zIndex: -4, marginTop: -25, backgroundColor: '#A77F6A'} ]} activeOpacity={0.7}>
+        <TouchableOpacity style={[styles.contenedor, {zIndex: -4, marginTop: -25, backgroundColor: '#A77F6A'} ]} activeOpacity={0.7}
+          onPress={() => navigation.navigate('Faltas')}
+        >
             <Text style={styles.texto}>Faltas</Text>
         </TouchableOpacity>
     </View>

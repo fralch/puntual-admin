@@ -9,6 +9,8 @@ import Home from './components/home';
 import Personal from './components/personal';
 import ListaPersonalDetalle from './components/lista_detalle';
 import Asistencias from './components/asistencias';
+import Tardanzas from './components/tardanzas';
+import Faltas from './components/faltas';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,8 @@ export default function App() {
       <Stack.Screen name="Personal" options={{headerShown: false}} component={Personal} />
       <Stack.Screen name="ListaPersonalDetalle" options={{headerShown: false}} component={ListaPersonalDetalle} />
       <Stack.Screen name="Asistencias" options={{headerShown: false}} component={Asistencias} />
+      <Stack.Screen name="Tardanzas" options={{headerShown: false}} component={Tardanzas} />
+      <Stack.Screen name="Faltas" options={{headerShown: false}} component={Faltas} />
     </Stack.Navigator>
   </NavigationContainer>
   );
