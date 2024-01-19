@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, Animated, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, Animated, TouchableOpacity, Dimensions } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import { MaterialIcons, FontAwesome  } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+
+const ancho = Dimensions.get('window').width;
+const alto = Dimensions.get('window').height;
 
 function Lista_personal(props) {
   const navigation = useNavigation();
@@ -59,7 +62,7 @@ function Lista_personal(props) {
             <View style={{  flexDirection: 'row' }} >
               {randomImage()}
               <View style={{ marginLeft: 20, flexDirection: 'column', justifyContent: 'center', }}>
-                <Text style={{ color: '#EA4D4A', fontSize: 16, fontWeight: 'bold' }}>{nombre}</Text>
+                <Text style={{ color: '#EA4D4A', fontSize: 16, fontWeight: 'bold', width: ancho * 0.5, overflow: 'hidden'}}>{nombre}</Text>
                 <Text style={{ color: '#fff', fontSize: 13 }}>{puesto.toUpperCase()}</Text>
                 <Text style={{ color: '#fff', fontSize: 13 }}>{celular}</Text>
               </View>

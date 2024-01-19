@@ -78,7 +78,7 @@ function ListaPersonalDetalle(props) {
 
             </View>
             <View style={styles.contenedor}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: '60%'}}>
                     <View style={{
                         width: 50,
                         height: 50,
@@ -92,6 +92,7 @@ function ListaPersonalDetalle(props) {
                     </View>
                     <View style={{ marginLeft: 20, flexDirection: 'column', justifyContent: 'center', }}>
                         <TextInput style={{ color: '#EA4D4A', fontSize: 20, fontWeight: 'bold', borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
+                            multiline
                             onChangeText={(text) => setPersonal({ ...personal, nombre: text })}
                         >{personal.nombre}</TextInput>
                         <TextInput style={{ color: !editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
