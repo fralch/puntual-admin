@@ -4,7 +4,6 @@ import Popup from './popup.jsx'
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import axios from 'axios';
 
-
 function ListaPersonalDetalle(props) {
     const [isEnabled, setIsEnabled] = useState(false);
     const [editable, setEditable] = useState(false);
@@ -14,7 +13,6 @@ function ListaPersonalDetalle(props) {
     // componente para ver el detalle de los datos del personal 
     // recibe como parametro el id del personal
     const { id } = props.route.params;
-    console.log(typeof id);
     const [personal, setPersonal] = useState({
         id: 0,
         nombre: "Ingrese nombre",
@@ -28,9 +26,16 @@ function ListaPersonalDetalle(props) {
         if (id == 0) {
             setEditable(true);
 
+        }else{
+            axios.get(`http://192.168.1.50:3000/usuarios/${id}`)
+            .then(function (response) {
+                setPersonal(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         }
-        // aqui se debe hacer la peticion al servidor para obtener los datos del personal
-        // y se debe guardar en el estado personal
+        
     }, []);
     const toggleSwitch = () => {
         setIsEnabled((previousState) => !previousState);
@@ -91,11 +96,11 @@ function ListaPersonalDetalle(props) {
                         >{personal.nombre}</TextInput>
                         <TextInput style={{ color: !editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
                             onChangeText={(text) => setPersonal({ ...personal, cargo: text })}
-                        >{personal.cargo}</TextInput>
+                        >{(personal.cargo).toUpperCase()}</TextInput>
                     </View>
                 </View>
                 <View style={{ flexDirection: 'colum', alignItems: 'center', marginTop: 20 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Celular: </Text>
                         <TextInput style={{ height: 30, color: !editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
                             onChangeText={(text) => setPersonal({ ...personal, celular: text })}
@@ -103,7 +108,7 @@ function ListaPersonalDetalle(props) {
                             {personal.celular}
                         </TextInput>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Correo: </Text>
                         <TextInput style={{ height: 30, color: !editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
                             onChangeText={(text) => setPersonal({ ...personal, correo: text })}
@@ -112,7 +117,7 @@ function ListaPersonalDetalle(props) {
                         </TextInput>
                     </View>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Direccion: </Text>
                         <TextInput style={{ height: 30, color: !editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
                             onChangeText={(text) => setPersonal({ ...personal, direccion: text })}

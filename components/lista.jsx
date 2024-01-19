@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 function Lista_personal(props) {
   const navigation = useNavigation();
   const translationX = useRef(new Animated.Value(0)).current;
-  const { nombre, puesto, celular } = props.parametros;
+  const { id, nombre, puesto, celular } = props.parametros;
 
 
   const handleGestureEvent = Animated.event(
@@ -17,7 +17,6 @@ function Lista_personal(props) {
 
   const handleRelease = (e) => {
     if (e.nativeEvent.translationX > 200) {
-      const id = 1;
       navigation.navigate('ListaPersonalDetalle',{id});
     }
 
@@ -41,7 +40,6 @@ function Lista_personal(props) {
   }
 
   const ir_detalle_personal = () => {
-    const id = 1;
     navigation.navigate('ListaPersonalDetalle',{id});
   }
 
@@ -62,7 +60,7 @@ function Lista_personal(props) {
               {randomImage()}
               <View style={{ marginLeft: 20, flexDirection: 'column', justifyContent: 'center', }}>
                 <Text style={{ color: '#EA4D4A', fontSize: 16, fontWeight: 'bold' }}>{nombre}</Text>
-                <Text style={{ color: '#fff', fontSize: 13 }}>{puesto}</Text>
+                <Text style={{ color: '#fff', fontSize: 13 }}>{puesto.toUpperCase()}</Text>
                 <Text style={{ color: '#fff', fontSize: 13 }}>{celular}</Text>
               </View>
             </View>
