@@ -14,6 +14,12 @@ function ListaPersonalDetalle(props) {
         mensaje: '',
     });
     const [backHome, setBackHome] = useState(false);
+    const [horario, setHorario] = useState({
+        ingreso_manana: '',
+        salida_manana: '',
+        ingreso_tarde: '',
+        salida_tarde: '',
+    });
 
     useEffect(() => {
         if (backHome) {
@@ -99,6 +105,13 @@ function ListaPersonalDetalle(props) {
 
             }
        }
+    }
+
+    const sendHorarios = async () => {
+        try {
+        } catch (error) {
+            console.log(error.response.data);
+        }
     }
 
     const renderPopup = () => {
@@ -211,16 +224,24 @@ function ListaPersonalDetalle(props) {
                             <View style={styles.modalView}>
                                 <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Horario laboral</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 20 }}>
-                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Ingreso mañanas" placeholderTextColor="gray" />
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Ingreso mañanas" placeholderTextColor="gray" 
+                                    onChangeText={(text) => setHorario({ ...horario, ingreso_manana: text })}
+                                    />
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Salida mañanas" placeholderTextColor="gray" />
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Salida mañanas" placeholderTextColor="gray" 
+                                    onChangeText={(text) => setHorario({ ...horario, salida_manana: text })}
+                                    />
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Ingreso tardes" placeholderTextColor="gray" />
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Ingreso tardes" placeholderTextColor="gray"
+                                    onChangeText={(text) => setHorario({ ...horario, ingreso_tarde: text })}
+                                     />
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
-                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Salida tardes" placeholderTextColor="gray" />
+                                    <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Salida tardes" placeholderTextColor="gray" 
+                                    onChangeText={(text) => setHorario({ ...horario, salida_tarde: text })}
+                                    />
                                 </View>
                                 <View style={styles.sugerenciasContainer}>
 
