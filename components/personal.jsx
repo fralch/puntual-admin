@@ -2,7 +2,7 @@ import React, { useState, useEffect , useRef} from 'react';
 import { View, Text, FlatList, StyleSheet, Image ,  Animated , TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect} from '@react-navigation/native';
 import axios from 'axios';
 
 import Lista_personal from './lista.jsx';
@@ -28,6 +28,16 @@ function Personal() {
       });
 
   }, []);
+
+  useFocusEffect(() => {
+    axios.get('http://192.168.1.50:3000/usuarios')
+    .then(function (response) {
+      setPersonal(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  });
 
   return (
     <GestureHandlerRootView style={styles.container} >
