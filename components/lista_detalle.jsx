@@ -59,19 +59,22 @@ function ListaPersonalDetalle(props) {
     };
 
     const sendDatos = async () => {
-       if(!editable){
+       if(editable==true){
              try {
-            const res = await axios.post('http://192.168.1.50:3000/usuarios', {
-                nombre: personal.nombre,
-                cargo: personal.cargo,
-                celular: personal.celular,
-                correo: personal.correo,
-                direccion: personal.direccion,
-                dni: personal.dni
-            });
+                const usuario = {
+                    nombre: personal.nombre,
+                    cargo: personal.cargo,
+                    celular: personal.celular,
+                    correo: personal.correo,
+                    direccion: personal.direccion,
+                    dni: personal.dni
+                }
+            console.log(usuario);
+            const res = await axios.post('http://192.168.1.50:3000/usuarios', usuario);
             console.log(res.data);
             setBackHome(true);
         } catch (error) {
+            console.log(error); 
             console.log(error.response.data);
             setEditable(true);
             setPopupData({
