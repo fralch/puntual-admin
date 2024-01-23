@@ -178,13 +178,21 @@ function ListaPersonalDetalle(props) {
     }
 
     const sendActualizarHorarios = async () => {
-        const formatoHoraRegex = /^([0-1]?[0-9]|2[0-3]):([0-5]\d):([0-5]\d)$/ ;
+        console.log("actualizar horarios"); 
+        const formatoHoraRegex2 = /^([0-1]?[0-9]|2[0-3]):([0-5]\d):([0-5]\d)$/ ;
+        const horario_data = {
+            entrada_manana: horario.entrada_manana,
+            salida_manana: horario.salida_manana,
+            entrada_tarde: horario.entrada_tarde,
+            salida_tarde: horario.salida_tarde,
+        }; 
         try {
-            for (const key in horario) {
-                if (!formatoHoraRegex.test(horario[key])) {
+            for (const key in horario_data) {
+                
+                if (!formatoHoraRegex2.test(horario[key])) {
                     setPopupData({
                         titulo: 'Error',
-                        mensaje: 'El formato de hora es incorrecto',
+                        mensaje: 'El formato dde hora es incorrecto',
                     });
                     setPopupVisible(true);
                     return;
@@ -196,15 +204,13 @@ function ListaPersonalDetalle(props) {
                 salida_manana: horario.salida_manana,
                 entrada_tarde: horario.entrada_tarde,
                 salida_tarde: horario.salida_tarde,
+                id: horario.id,
             
             });
             console.log(res.data);
+           
             setModalVisible(false);
-            setPopupData({
-                titulo: 'Exito',
-                mensaje: res.data,
-            });
-            setPopupVisible(true);
+         
 
         } catch (error) {
             console.log(error.response.data.message);
@@ -297,8 +303,20 @@ function ListaPersonalDetalle(props) {
 
                     {
                         !actualizarHorario ?
-                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20, backgroundColor: '#EA4D4A', padding: 10, borderRadius: 5 }}
-                            onPress={() => setModalVisible(true)}
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20, backgroundColor:  personal.id ? '#EA4D4A' : "#aaa" , padding: 10, borderRadius: 5 }}
+                            onPress={() => 
+                                {if(personal.id){
+                                        setModalVisible(true)
+                                    }else{
+                                        setPopupData({
+                                            titulo: 'Error',
+                                            mensaje: 'Debe guardar los datos del personal primero',
+                                        });
+                                        setPopupVisible(true);
+                                    
+                                    }
+                                }
+                            }
                         >
                             <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', marginRight: 10 }}>Horarios</Text>
                             <Feather name="clock" size={24} color="white" />
