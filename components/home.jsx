@@ -5,6 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
+const today = () =>{
+  // formato de fecha 27 de Octubre del 2020
+  const date = new Date().getDate();
+  const month = new Date().getMonth();
+  const year = new Date().getFullYear();
+  const monthName = new Date().toLocaleString('default', { month: 'long' });
+  return `${date} de ${monthName} del ${year}`;
+
+
+}
+
 function Home() {
   const navigation = useNavigation();
 
@@ -13,9 +24,8 @@ return (
         <View style={[styles.contenedor, {height: height*0.32}]}>
             <Image style={{width: width*0.4, height: 60, marginVertical:20}} source={require('../assets/img/logo2.png')} />
             <Text style={[styles.texto, {fontSize:12, fontWeight: 'normal'}]} >Sistema de Gestion de Personal</Text>
-            <Text style={[styles.texto, {fontSize:20, fontWeight: 'normal'}]} >Huancayo, 24 Octubre 2023</Text>
+            <Text style={[styles.texto, {fontSize:20, fontWeight: 'normal'}]} >{today()}</Text>
 
-            <Text style={[styles.texto, {fontSize:35, fontWeight: 'normal', marginTop:20}]}>11:07 AM </Text>
         </View>
         <TouchableOpacity 
           style={[styles.contenedor, {zIndex: -1, marginTop: -25, backgroundColor: '#EA4D4A',}]}  

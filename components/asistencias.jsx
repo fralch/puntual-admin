@@ -6,7 +6,7 @@ import {
 import { Table, Row } from 'react-native-table-component';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome, AntDesign  } from '@expo/vector-icons';
+import { FontAwesome  } from '@expo/vector-icons';
 
 export default function Asistencias() {
     const [ancho, setAncho] = useState(Dimensions.get('window').width);
