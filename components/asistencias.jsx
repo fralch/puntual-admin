@@ -7,6 +7,7 @@ import { Table, Row } from 'react-native-table-component';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome  } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function Asistencias() {
     const [ancho, setAncho] = useState(Dimensions.get('window').width);
@@ -32,47 +33,24 @@ export default function Asistencias() {
     const [usuarioFiltro, setUsuarioFiltro] = useState(''); //solo para pruebas
     const [date_desde, setDateDesde] = useState(varDateDesde());
     const [date_hasta, setDateHasta] = useState(new Date());
-    const [datos_tabla, setDatosTabla] = useState([
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-    ]);  //solo para pruebas
+    const [datos_tabla, setDatosTabla] = useState([]);  
  
     const navigation = useNavigation();
+
+
+    useEffect(() => {
+        // obtener datos de la api
+         const fechas = {fechaInicio: date_desde, fechaFin: date_hasta}
+         console.log(fechas);
+
+         axios.post('http://192.168.1.50:3000/registro_asistencias_date', fechas)
+            .then(function (response) {
+                console.log(response.data);
+                setDatosTabla(response.data);
+            })
+
+        
+    }, []);
 
 
 
@@ -121,18 +99,13 @@ export default function Asistencias() {
             return US_date.getDate() + " de " + (monthName[US_date.getMonth() % 12]).toLowerCase() + " del " + US_date.getFullYear();
         }
     }
-    function dateToYMD(date) {
-        var d = date.getDate();
-        var m = date.getMonth() + 1; //Month from 0 to 11
-        var y = date.getFullYear();
-        return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
-    }
+
 
 
 
     const datos = {
         tableHead: ['FOTO', 'NOMBRE', 'TURNO', 'FECHA'],
-        widthArr: [100, 200, 160, 150],
+        widthArr: [100, 220, 160, 150],
 
     }
 
@@ -180,20 +153,18 @@ export default function Asistencias() {
                         </Table>
                         <ScrollView style={{ height: 400 }}>
                             <Table borderStyle={{}}>
+                                 
                                 {
                                     datos_tabla.map((rowData, index) => (
                                         <Row
                                             key={index}
-                                            data={rowData}
+                                            data={[rowData.foto, rowData.nombre, rowData.turno, getDateString(new Date(rowData.fecha))]}
                                             widthArr={datos.widthArr}
-                                            style={
-                                                index % 2 == 0
-                                                    ? styles.lista
-                                                    : [styles.lista, { backgroundColor: '#3d3b3a' }]
-                                            }
+                                            style={[styles.lista, index % 2 && { backgroundColor: '#3d3b3a' }]}
                                             textStyle={styles.texto_lista}
                                         />
                                     ))
+
                                 }
                             </Table>
                         </ScrollView>
