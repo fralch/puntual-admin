@@ -43,7 +43,7 @@ export default function Asistencias() {
          const fechas = {fechaInicio: date_desde, fechaFin: date_hasta}
          console.log(fechas);
 
-         axios.post('http://192.168.1.50:3000/registro_asistencias_date', fechas)
+         axios.post('http://192.168.1.17:3000/registro_asistencias_date', fechas)
             .then(function (response) {
                 console.log(response.data);
                 setDatosTabla(response.data);
