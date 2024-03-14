@@ -84,10 +84,10 @@ function ListaPersonalDetalle(props) {
                 const usuario = {
                     nombre: personal.nombre,
                     cargo: personal.cargo,
-                    celular: personal.celular,
+                    celular: Number(personal.celular),
                     correo: personal.correo,
                     direccion: personal.direccion,
-                    dni: personal.dni
+                    dni: Number(personal.dni)
                 }
             console.log(usuario);
             const res = await axios.post('http://192.168.1.17:3000/usuarios', usuario);
@@ -110,10 +110,10 @@ function ListaPersonalDetalle(props) {
                     id: personal.id,
                     nombre: personal.nombre,
                     cargo: personal.cargo,
-                    celular: personal.celular,
+                    celular: Number(personal.celular),
                     correo: personal.correo,
                     direccion: personal.direccion,
-                    dni: personal.dni
+                    dni: Number(personal.dni)
                 });
                 console.log(res.data);
                 setBackHome(true);
@@ -268,7 +268,7 @@ function ListaPersonalDetalle(props) {
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Celular: </Text>
                         <TextInput style={{ height: 30, color: !editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
                             keyboardType="numeric"
-                            onChangeText={(text) => setPersonal({ ...personal, celular: text })}
+                            onChangeText={(text) => setPersonal({ ...personal, celular: Number(text) })}
                         >
                             {personal.celular}
                         </TextInput>
@@ -295,7 +295,7 @@ function ListaPersonalDetalle(props) {
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>DNI: </Text>
                         <TextInput style={{ height: 30, color: !editable ? '#fff' : 'black', fontSize: 16, borderWidth: !editable ? 0 : 1, borderColor: !editable ? '#fff' : 'black', borderRadius: 5, padding: 5, backgroundColor: !editable ? 'transparent' : '#ccc' }} editable={editable}
                             keyboardType="numeric"
-                            onChangeText={(text) => setPersonal({ ...personal, dni: text })}
+                            onChangeText={(text) => setPersonal({ ...personal, dni: Number(text) })}
                         >
                             {personal.dni}
                         </TextInput>
