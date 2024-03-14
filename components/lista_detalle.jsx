@@ -60,6 +60,7 @@ function ListaPersonalDetalle(props) {
         if (id == 0) {
             setEditable(true);
         }else{
+            console.log(`http://192.168.1.17:3000/horariosLaborales/${id}`)
             axios.get(`http://192.168.1.17:3000/horariosLaborales/${id}`)
             .then(function (response) {
                 console.log(response.data);
@@ -67,7 +68,7 @@ function ListaPersonalDetalle(props) {
                 setActualizarHorario(true);
             })
             .catch(function (error) {
-                console.log(error);
+                console.log(`error al traer horarios de usuario ${error}`);
             });
 
             
@@ -181,7 +182,7 @@ function ListaPersonalDetalle(props) {
 
     const sendActualizarHorarios = async () => {
         console.log("actualizar horarios"); 
-        const formatoHoraRegex2 = /^([0-1]?[0-9]|2[0-3]):([0-5]\d):([0-5]\d)$/ ;
+        const formatoHoraRegex2 = /^([0-1]?[0-9]|2[0-3]):([0-5]\d)$/;
         const horario_data = {
             entrada_manana: horario.entrada_manana,
             salida_manana: horario.salida_manana,
@@ -200,7 +201,8 @@ function ListaPersonalDetalle(props) {
                     return;
                 }
             }
-            const res = await axios.put('http://192.168.1.17:3000/horariosLaborales', {
+            
+            const res = await axios.put(`http://192.168.1.17:3000/horariosLaborales/${horario.id}`, {
                 usuario_id: personal.id,
                 entrada_manana: horario.entrada_manana,
                 salida_manana: horario.salida_manana,
@@ -212,6 +214,11 @@ function ListaPersonalDetalle(props) {
             console.log(res.data);
            
             setModalVisible(false);
+            setPopupData({
+                titulo: 'Exito',
+                mensaje: "Actualizado con exito",
+            });
+            setPopupVisible(true);
          
 
         } catch (error) {
