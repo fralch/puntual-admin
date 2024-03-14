@@ -99,7 +99,7 @@ function ListaPersonalDetalle(props) {
             setEditable(true);
             setPopupData({
                 titulo: 'Error',
-                mensaje: 'Ocurrio un error al guardar los datos',
+                mensaje: error.response.data.message,
             });
             setPopupVisible(true);
 
@@ -122,7 +122,7 @@ function ListaPersonalDetalle(props) {
                 setEditable(true);
                 setPopupData({
                     titulo: 'Error',
-                    mensaje: 'Ocurrio un error al guardar los datos',
+                    mensaje: error.response.data.message,
                 });
                 setPopupVisible(true);
 
@@ -134,7 +134,9 @@ function ListaPersonalDetalle(props) {
         const formatoHoraRegex = /^([0-1]?[0-9]|2[0-3]):([0-5]\d)$/;
         try {
             for (const key in horario) {
+                console.log(horario[key]);
                 if (!formatoHoraRegex.test(horario[key])) {
+                    
                     setPopupData({
                         titulo: 'Error',
                         mensaje: 'El formato de hora es incorrecto',
@@ -143,7 +145,7 @@ function ListaPersonalDetalle(props) {
                     return;
                 }
             }
-            const res = await axios.post('http://192.168.1.17:3000/horariosLaborales', {
+         res = await axios.post('http://192.168.1.17:3000/horariosLaborales', {
                 usuario_id: personal.id,
                 entrada_manana: horario.entrada_manana,
                 salida_manana: horario.salida_manana,
@@ -154,7 +156,7 @@ function ListaPersonalDetalle(props) {
             setModalVisible(false);
             setPopupData({
                 titulo: 'Exito',
-                mensaje: res.data,
+                mensaje: "Guardado con exito",
             });
             setPopupVisible(true);
 
@@ -192,7 +194,7 @@ function ListaPersonalDetalle(props) {
                 if (!formatoHoraRegex2.test(horario[key])) {
                     setPopupData({
                         titulo: 'Error',
-                        mensaje: 'El formato dde hora es incorrecto',
+                        mensaje: 'El formato de hora al actualizar es incorrecto',
                     });
                     setPopupVisible(true);
                     return;
