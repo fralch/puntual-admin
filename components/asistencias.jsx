@@ -42,11 +42,52 @@ export default function Asistencias() {
         // obtener datos de la api
          const fechas = {fechaInicio: date_desde, fechaFin: date_hasta}
          console.log(fechas);
+         const fechas2 =
+         {
+            "fecha_inicio": "2024-03-14",
+            "fecha_fin": "2024-03-15"
+        }
+    
 
-         axios.post('http://192.168.1.17:3000/registro_asistencias_date', fechas)
+         axios.post('http://192.168.1.17:3000/Asistencias/byDates', fechas2)
             .then(function (response) {
                 console.log(response.data);
-                setDatosTabla(response.data);
+                //FOTO', 'NOMBRE', 'TURNO', 'FECHA'
+                /*  '
+                [
+                        {
+                            "usuario_id": 1,
+                            "usuario": {
+                                "nombre": "Ingrese nombre"
+                            },
+                            "fecha": "2024-03-14T00:00:00.000Z",
+                            "hora_entrada": "08:00:00",
+                            "turno": "Mañana",
+                            "foto": "ruta_de_la_foto_1.jpg"
+                        },
+                        {
+                            "usuario_id": 1,
+                            "usuario": {
+                                "nombre": "Ingrese nombre"
+                            },
+                            "fecha": "2024-03-15T00:00:00.000Z",
+                            "hora_entrada": "09:30:00",
+                            "turno": "Mañana",
+                            "foto": "ruta_de_la_foto_2.jpg"
+                        }
+                    ]
+                */
+                const datos = response.data.map((item) => {
+                    return {
+                        foto:item.foto,
+                        nombre: item.usuario.nombre,
+                        turno: item.turno,
+                        fecha: item.fecha ,
+                        hora: item.hora_entrada
+                    }
+                } );
+                console.log(datos);
+                setDatosTabla(datos);
             })
 
         
@@ -104,8 +145,8 @@ export default function Asistencias() {
 
 
     const datos = {
-        tableHead: ['FOTO', 'NOMBRE', 'TURNO', 'FECHA'],
-        widthArr: [100, 220, 160, 150],
+        tableHead: ['FOTO', 'NOMBRE', 'TURNO', 'FECHA', 'HORA'],
+        widthArr: [100, 220, 160, 150, 100],
 
     }
 
@@ -158,9 +199,15 @@ export default function Asistencias() {
                                     datos_tabla.map((rowData, index) => (
                                         <Row
                                             key={index}
-                                            data={[rowData.foto, rowData.nombre, rowData.turno, getDateString(new Date(rowData.fecha))]}
+                                            data={[
+                                                <Image source={{ uri: rowData.foto }} style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />,
+                                                rowData.nombre,
+                                                rowData.turno,
+                                                getDateString(new Date(rowData.fecha)),
+                                                rowData.hora
+                                            ]}
                                             widthArr={datos.widthArr}
-                                            style={[styles.lista, index % 2 && { backgroundColor: '#3d3b3a' }]}
+                                            style={[styles.lista, index % 2 && { backgroundColor: '#302E34' }]}
                                             textStyle={styles.texto_lista}
                                         />
                                     ))
