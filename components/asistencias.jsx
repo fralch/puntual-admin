@@ -52,31 +52,7 @@ export default function Asistencias() {
          axios.post('http://192.168.1.17:3000/Asistencias/byDates', fechas2)
             .then(function (response) {
                 console.log(response.data);
-                //FOTO', 'NOMBRE', 'TURNO', 'FECHA'
-                /*  '
-                [
-                        {
-                            "usuario_id": 1,
-                            "usuario": {
-                                "nombre": "Ingrese nombre"
-                            },
-                            "fecha": "2024-03-14T00:00:00.000Z",
-                            "hora_entrada": "08:00:00",
-                            "turno": "Mañana",
-                            "foto": "ruta_de_la_foto_1.jpg"
-                        },
-                        {
-                            "usuario_id": 1,
-                            "usuario": {
-                                "nombre": "Ingrese nombre"
-                            },
-                            "fecha": "2024-03-15T00:00:00.000Z",
-                            "hora_entrada": "09:30:00",
-                            "turno": "Mañana",
-                            "foto": "ruta_de_la_foto_2.jpg"
-                        }
-                    ]
-                */
+                
                 const datos = response.data.map((item) => {
                     return {
                         foto:item.foto,
@@ -200,14 +176,14 @@ export default function Asistencias() {
                                         <Row
                                             key={index}
                                             data={[
-                                                <Image source={{ uri: rowData.foto }} style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />,
+                                                <Image source={{ uri: "https://c1.klipartz.com/pngpicture/823/765/sticker-png-login-icon-system-administrator-user-user-profile-icon-design-avatar-face-head.png" }} style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />,
                                                 rowData.nombre,
                                                 rowData.turno,
                                                 getDateString(new Date(rowData.fecha)),
                                                 rowData.hora
                                             ]}
                                             widthArr={datos.widthArr}
-                                            style={[styles.lista, index % 2 && { backgroundColor: '#302E34' }]}
+                                            style={{ ...styles.lista, ...(index % 2 && { backgroundColor: '#302E34' }) }}
                                             textStyle={styles.texto_lista}
                                         />
                                     ))
