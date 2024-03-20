@@ -44,8 +44,8 @@ export default function Asistencias() {
          console.log(fechas);
          const fechas2 =
          {
-            "fecha_inicio": "2024-03-14",
-            "fecha_fin": "2024-03-15"
+            "fecha_inicio": "2023-03-14",
+            "fecha_fin": "2023-03-17"
         }
     
 
