@@ -31,6 +31,7 @@ export default function Asistencias() {
     }
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [modaFotolVisible, setModaFotolVisible] = useState(false);
     const [usuarioFiltro, setUsuarioFiltro] = useState(''); //solo para pruebas
     const [date_desde, setDateDesde] = useState(varDateDesde());
     const [date_hasta, setDateHasta] = useState(new Date());
@@ -187,7 +188,7 @@ export default function Asistencias() {
                                                 // <TouchableOpacity onPress={() => { setFotoUsuario(rowData.foto); setModalVisible(true); }}>
                                                 //     <Image source={{ uri: rowData.foto }} style={{ width: 40, height: 40, borderRadius: 20 }} />
                                                 // </TouchableOpacity>,
-                                                <TouchableOpacity onPress={() => { setFotoUsuario("https://c1.klipartz.com/pngpicture/823/765/sticker-png-login-icon-system-administrator-user-user-profile-icon-design-avatar-face-head.png"); setModalVisible(true); }} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                                                <TouchableOpacity onPress={() => { setFotoUsuario("https://c1.klipartz.com/pngpicture/823/765/sticker-png-login-icon-system-administrator-user-user-profile-icon-design-avatar-face-head.png"); setModaFotolVisible(true); }} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
                                                      <Image source={{ uri: "https://c1.klipartz.com/pngpicture/823/765/sticker-png-login-icon-system-administrator-user-user-profile-icon-design-avatar-face-head.png" }} style={{ width: 40, height: 40, borderRadius: 20 }} />
                                                 </TouchableOpacity>,
                                                 rowData.nombre,
@@ -257,7 +258,29 @@ export default function Asistencias() {
 
                     </View>
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, backgroundColor: '#EF772A', padding: 10, borderRadius: 5, marginBottom: 20 }}
+                        onPress={() => {
+                            // filtrar por fechas 
+                            const fechas_filtro = {fecha_inicio: date_desde, fecha_fin: date_hasta}
+                            
+                            axios.post('http://192.168.1.18:3000/Asistencias/byDates', fechas_filtro)
+                            .then(function (response) {
+                                console.log(response.data);
+                                
+                                const datos = response.data.map((item) => {
+                                    return {
+                                        foto:item.foto,
+                                        nombre: item.usuario.nombre,
+                                        turno: item.turno,
+                                        fecha: item.fecha ,
+                                        hora: item.hora_entrada
+                                    }
+                                } );
+                                console.log(datos);
+                                setDatosTabla(datos);
+                            })
+
                        
+                        }}
                     >
                         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Buscar</Text>
                     </TouchableOpacity>
@@ -301,7 +324,7 @@ export default function Asistencias() {
             </Modal>
             
             {/* Modal ver foto */}
-            <Modal animationType="slide" transparent={true} visible={modalVisible} >
+            <Modal animationType="slide" transparent={true} visible={modaFotolVisible} >
                 <View style={{ ...styles.centeredView }}>
                     <View style={styles.modalView}>
                         <Image source={{ uri: foto }} style={{ width: 200, height: 200 }} />
