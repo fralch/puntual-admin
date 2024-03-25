@@ -44,7 +44,7 @@ function ListaPersonalDetalle(props) {
         if (id == 0) {
             setEditable(true);
         }else{
-            axios.get(`http://192.168.1.17:3000/usuarios/${id}`)
+            axios.get(`http://192.168.1.18:3000/usuarios/${id}`)
             .then(function (response) {
                 setPersonal(response.data);
             })
@@ -60,8 +60,8 @@ function ListaPersonalDetalle(props) {
         if (id == 0) {
             setEditable(true);
         }else{
-            console.log(`http://192.168.1.17:3000/horariosLaborales/${id}`)
-            axios.get(`http://192.168.1.17:3000/horariosLaborales/${id}`)
+            console.log(`http://192.168.1.18:3000/horariosLaborales/${id}`)
+            axios.get(`http://192.168.1.18:3000/horariosLaborales/${id}`)
             .then(function (response) {
                 console.log(response.data);
                 setHorario(response.data);
@@ -91,7 +91,7 @@ function ListaPersonalDetalle(props) {
                     dni: Number(personal.dni)
                 }
             console.log(usuario);
-            const res = await axios.post('http://192.168.1.17:3000/usuarios', usuario);
+            const res = await axios.post('http://192.168.1.18:3000/usuarios', usuario);
             console.log(res.data);
             setBackHome(true);
         } catch (error) {
@@ -107,7 +107,7 @@ function ListaPersonalDetalle(props) {
         }
        }else{
               try {
-                const res = await axios.put(`http://192.168.1.17:3000/usuarios`, {
+                const res = await axios.put(`http://192.168.1.18:3000/usuarios`, {
                     id: personal.id,
                     nombre: personal.nombre,
                     cargo: personal.cargo,
@@ -146,7 +146,7 @@ function ListaPersonalDetalle(props) {
                     return;
                 }
             }
-         res = await axios.post('http://192.168.1.17:3000/horariosLaborales', {
+         res = await axios.post('http://192.168.1.18:3000/horariosLaborales', {
                 usuario_id: personal.id,
                 entrada_manana: horario.entrada_manana,
                 salida_manana: horario.salida_manana,
@@ -202,7 +202,7 @@ function ListaPersonalDetalle(props) {
                 }
             }
             
-            const res = await axios.put(`http://192.168.1.17:3000/horariosLaborales/${horario.id}`, {
+            const res = await axios.put(`http://192.168.1.18:3000/horariosLaborales/${horario.id}`, {
                 usuario_id: personal.id,
                 entrada_manana: horario.entrada_manana,
                 salida_manana: horario.salida_manana,
@@ -420,7 +420,7 @@ function ListaPersonalDetalle(props) {
                          : null
                     }
 
-
+                  
                 </View>
             </View>
         </View>

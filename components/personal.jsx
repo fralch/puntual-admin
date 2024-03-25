@@ -19,7 +19,7 @@ function Personal() {
   }
 
   useEffect(() => {
-    axios.get('http://192.168.1.17:3000/usuarios')
+    axios.get('http://192.168.1.18:3000/usuarios')
       .then(function (response) {
         setPersonal(response.data);
       })
@@ -30,7 +30,7 @@ function Personal() {
   }, []);
 
   useFocusEffect(() => {
-    axios.get('http://192.168.1.17:3000/usuarios')
+    axios.get('http://192.168.1.18:3000/usuarios')
     .then(function (response) {
       setPersonal(response.data);
     })

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from 'react';
 import {
     View, Text, StyleSheet, ScrollView, Modal, Image, TouchableHighlight, Dimensions,
-    TouchableOpacity, TextInput, FlatList
+    TouchableOpacity, TextInput, FlatList, Button
 } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
@@ -14,6 +14,7 @@ export default function Asistencias() {
     const [alto, setAlto] = useState(Dimensions.get('window').height);
     const [buscarUsuario, setBuscarUsuario] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
+    const [foto , setFoto] = useState();
 
     const usuarios = [
        'Frank Cairampoma Castro',
@@ -49,7 +50,7 @@ export default function Asistencias() {
         }
     
 
-         axios.post('http://192.168.1.17:3000/Asistencias/byDates', fechas2)
+         axios.post('http://192.168.1.18:3000/Asistencias/byDates', fechas2)
             .then(function (response) {
                 console.log(response.data);
                 
@@ -155,6 +156,12 @@ export default function Asistencias() {
         </TouchableOpacity>
       );
 
+    const setFotoUsuario = (foto) => {
+        console.log('foto: ');
+        console.log(foto);
+        setFoto(foto);
+    }
+    
 
     return (
         <View style={[styles.container, { marginTop: 0 }]}>
@@ -176,7 +183,13 @@ export default function Asistencias() {
                                         <Row
                                             key={index}
                                             data={[
-                                                <Image source={{ uri: "https://c1.klipartz.com/pngpicture/823/765/sticker-png-login-icon-system-administrator-user-user-profile-icon-design-avatar-face-head.png" }} style={{ width: 50, height: 50, borderRadius: 50 / 2 }} />,
+                                                
+                                                // <TouchableOpacity onPress={() => { setFotoUsuario(rowData.foto); setModalVisible(true); }}>
+                                                //     <Image source={{ uri: rowData.foto }} style={{ width: 40, height: 40, borderRadius: 20 }} />
+                                                // </TouchableOpacity>,
+                                                <TouchableOpacity onPress={() => { setFotoUsuario("https://c1.klipartz.com/pngpicture/823/765/sticker-png-login-icon-system-administrator-user-user-profile-icon-design-avatar-face-head.png"); setModalVisible(true); }} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                                                     <Image source={{ uri: "https://c1.klipartz.com/pngpicture/823/765/sticker-png-login-icon-system-administrator-user-user-profile-icon-design-avatar-face-head.png" }} style={{ width: 40, height: 40, borderRadius: 20 }} />
+                                                </TouchableOpacity>,
                                                 rowData.nombre,
                                                 rowData.turno,
                                                 getDateString(new Date(rowData.fecha)),
@@ -278,6 +291,23 @@ export default function Asistencias() {
                             style={{ ...styles.openButton, backgroundColor: "#EF772A" }}
                             onPress={() => {
                                 setSugerencias([]);
+                                setModalVisible(!modalVisible);
+                            }}
+                        >
+                            <Text style={{color:'white'}}>Cerrar</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
+            
+            {/* Modal ver foto */}
+            <Modal animationType="slide" transparent={true} visible={modalVisible} >
+                <View style={{ ...styles.centeredView }}>
+                    <View style={styles.modalView}>
+                        <Image source={{ uri: foto }} style={{ width: 200, height: 200 }} />
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: "#EF772A" }}
+                            onPress={() => {
                                 setModalVisible(!modalVisible);
                             }}
                         >
