@@ -12,18 +12,9 @@ import axios from 'axios';
 export default function Asistencias() {
     const [ancho, setAncho] = useState(Dimensions.get('window').width);
     const [alto, setAlto] = useState(Dimensions.get('window').height);
-    const [buscarUsuario, setBuscarUsuario] = useState('');
-    const [sugerencias, setSugerencias] = useState([]);
     const [foto , setFoto] = useState();
 
-    const usuarios = [
-       'Frank Cairampoma Castro',
-       'Jose',
-         'Juan',    
-         'Pedro',
-    ]; //solo para pruebas
-
-
+   
     const varDateDesde = () => {
         const date = new Date();
         date.setDate(1);
@@ -42,16 +33,16 @@ export default function Asistencias() {
 
     useEffect(() => {
         // obtener datos de la api
-         const fechas = {fechaInicio: date_desde, fechaFin: date_hasta}
+         const fechas = {fecha_inicio: date_desde, fecha_inicio: date_hasta}
          console.log(fechas);
          const fechas2 =
          {
-            "fecha_inicio": "2023-03-14",
-            "fecha_fin": "2023-03-17"
+            "fecha_inicio": date_hasta,
+            "fecha_inicio": date_hasta
         }
     
 
-         axios.post('http://192.168.1.18:3000/Asistencias/byDates', fechas2)
+         axios.post('http://192.168.1.18:3000/Asistencias/byDates', fechas)
             .then(function (response) {
                 console.log(response.data);
                 
@@ -128,34 +119,7 @@ export default function Asistencias() {
 
     }
 
-    const buscarSugerencias = (inputText) => {
-       if(inputText.length > 0){
-        const newData = usuarios.filter(
-            function (item) {
-              const itemData = item ? item.toUpperCase() : ''.toUpperCase();
-              const textData = inputText.toUpperCase();
-              return itemData.indexOf(textData) > -1;
-            }
-          );
-          setSugerencias(newData);
-        }else{
-            setSugerencias([]);
-        }
-      };
     
-      const renderSugerencia = ({ item }) => (
-        <TouchableOpacity style={styles.sugerencia} onPress={() => {
-            setUsuarioFiltro(item);
-            setModalVisible(!modalVisible);
-            setSugerencias([]);
-        }}>
-            <Text style={{ color: 'gray', fontSize: 16, fontWeight: 'bold' }}>
-                {item} 
-            </Text>
-            
-
-        </TouchableOpacity>
-      );
 
     const setFotoUsuario = (foto) => {
         console.log('foto: ');
@@ -275,9 +239,16 @@ export default function Asistencias() {
                                         hora: item.hora_entrada
                                     }
                                 } );
-                                console.log(datos);
-                                setDatosTabla(datos);
+                                // console.log(datos);
+                                if(usuarioFiltro.length > 0){
+                                    const datos_filtrados = datos.filter((item) => item.nombre === usuarioFiltro);
+                                    setDatosTabla(datos_filtrados);
+                                }
+                                else{
+                                    setDatosTabla(datos);
+                                }
                             })
+
 
                        
                         }}
@@ -294,21 +265,13 @@ export default function Asistencias() {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 20 }}>
                             <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Nombre" placeholderTextColor="#fff" 
                                 onChangeText={(text) => {
-                                    setBuscarUsuario(text);
-                                    buscarSugerencias(text);
+                                    setUsuarioFiltro(text);
                                   }}
                             />
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EF772A', padding: 10, borderRadius: 5, marginLeft: 20, marginRight: 10 }}>
                                 <FontAwesome name="search" size={24} color="white" />
                             </TouchableOpacity>
-                        </View>
-                        <View style={styles.sugerenciasContainer}>
-                        <FlatList
-                            data={sugerencias}
-                            renderItem={renderSugerencia}
-                            keyExtractor={(item) => item}
-                        />
-                        </View>
+                        </View>                   
                                 
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#EF772A" }}
@@ -331,7 +294,7 @@ export default function Asistencias() {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#EF772A" }}
                             onPress={() => {
-                                setModalVisible(!modalVisible);
+                                setModaFotolVisible(!modaFotolVisible);
                             }}
                         >
                             <Text style={{color:'white'}}>Cerrar</Text>
