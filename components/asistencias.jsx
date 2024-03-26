@@ -27,24 +27,17 @@ export default function Asistencias() {
     const [date_desde, setDateDesde] = useState(varDateDesde());
     const [date_hasta, setDateHasta] = useState(new Date());
     const [datos_tabla, setDatosTabla] = useState([]);  
- 
+
     const navigation = useNavigation();
 
 
     useEffect(() => {
         // obtener datos de la api
-         const fechas = {fecha_inicio: date_desde, fecha_inicio: date_hasta}
-         console.log(fechas);
-         const fechas2 =
-         {
-            "fecha_inicio": date_hasta,
-            "fecha_inicio": date_hasta
-        }
-    
+         const fechas = {fecha_inicio: date_desde, fecha_fin: date_hasta}
+        
 
          axios.post('http://192.168.1.18:3000/Asistencias/byDates', fechas)
             .then(function (response) {
-                console.log(response.data);
                 
                 const datos = response.data.map((item) => {
                     return {
@@ -55,7 +48,6 @@ export default function Asistencias() {
                         hora: item.hora_entrada
                     }
                 } );
-                console.log(datos);
                 setDatosTabla(datos);
             })
 
@@ -110,21 +102,19 @@ export default function Asistencias() {
         }
     }
 
-
-
-
     const datos = {
         tableHead: ['FOTO', 'NOMBRE', 'TURNO', 'FECHA', 'HORA'],
         widthArr: [100, 220, 160, 150, 100],
+    }  
 
-    }
+    const setFotoUsuario = (foto) => setFoto(foto);
 
-    
+    const fnFiltrarUsuario  = () => {
+        const usuario = usuarioFiltro; 
+        const datosFiltrados = datos_tabla.filter((item) => item.nombre.toLowerCase().includes(usuario.toLowerCase()));
+        setDatosTabla(datosFiltrados);
+        setModalVisible(!modalVisible);
 
-    const setFotoUsuario = (foto) => {
-        console.log('foto: ');
-        console.log(foto);
-        setFoto(foto);
     }
     
 
@@ -240,13 +230,7 @@ export default function Asistencias() {
                                     }
                                 } );
                                 // console.log(datos);
-                                if(usuarioFiltro.length > 0){
-                                    const datos_filtrados = datos.filter((item) => item.nombre === usuarioFiltro);
-                                    setDatosTabla(datos_filtrados);
-                                }
-                                else{
-                                    setDatosTabla(datos);
-                                }
+                                setDatosTabla(datos);
                             })
 
 
@@ -268,7 +252,9 @@ export default function Asistencias() {
                                     setUsuarioFiltro(text);
                                   }}
                             />
-                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EF772A', padding: 10, borderRadius: 5, marginLeft: 20, marginRight: 10 }}>
+                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EF772A', padding: 10, borderRadius: 5, marginLeft: 20, marginRight: 10 }}
+                                onPress={() => fnFiltrarUsuario()}
+                            >
                                 <FontAwesome name="search" size={24} color="white" />
                             </TouchableOpacity>
                         </View>                   
@@ -276,7 +262,6 @@ export default function Asistencias() {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#EF772A" }}
                             onPress={() => {
-                                setSugerencias([]);
                                 setModalVisible(!modalVisible);
                             }}
                         >
