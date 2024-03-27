@@ -7,95 +7,44 @@ import { Table, Row } from 'react-native-table-component';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, AntDesign  } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function Tardanzas() {
-    const [ancho, setAncho] = useState(Dimensions.get('window').width);
-    const [alto, setAlto] = useState(Dimensions.get('window').height);
-    const [buscarUsuario, setBuscarUsuario] = useState('');
-    const [sugerencias, setSugerencias] = useState([]);
-
-    const usuarios = [
-       'Frank Cairampoma Castro',
-       'Jose',
-         'Juan',    
-         'Pedro',
-    ]; //solo para pruebas
-
-    useEffect(() => {
-        // obtener datos de la api
-         const fechas = {fecha_inicio: date_desde, fecha_fin: date_hasta}
-        
-
-         axios.post('http://192.168.1.18:3000/Asistencias/byDates', fechas)
-            .then(function (response) {
-                
-                const datos = response.data.map((item) => {
-                    return {
-                        foto:item.foto,
-                        nombre: item.usuario.nombre,
-                        turno: item.turno,
-                        fecha: item.fecha ,
-                        hora: item.hora_entrada
-                    }
-                } );
-                setDatosTabla(datos);
-            })
-
-        
-    }, []);
-
     const varDateDesde = () => {
         const date = new Date();
         date.setDate(1);
         return date;
     }
-
+    const [ancho, setAncho] = useState(Dimensions.get('window').width);
+    const [alto, setAlto] = useState(Dimensions.get('window').height);
+    const [sugerencias, setSugerencias] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [usuarioFiltro, setUsuarioFiltro] = useState(''); //solo para pruebas
-    const [date_desde, setDateDesde] = useState(varDateDesde());
     const [date_hasta, setDateHasta] = useState(new Date());
-    const [datos_tabla, setDatosTabla] = useState([
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-        ['img', 'Juan Perez', 'Tarde', '2021-10-01'],
-    ]);  //solo para pruebas
- 
-    const navigation = useNavigation();
+    const [datos_tabla, setDatosTabla] = useState([]);
+    
+    const [date_desde, setDateDesde] = useState(varDateDesde());
+    const navigation = useNavigation();   
 
+    
+
+    
+
+   
+    useEffect(() => {
+        // obtener datos de la api
+         const fechas = {fecha_inicio: date_desde, fecha_fin: date_hasta}
+         axios.post('http://192.168.1.18:3000/tardanzas/byDates', fechas)
+            .then(function (response) {
+              
+              const datos = response.data.map((item) => {
+                return [item.usuario.nombre, item.turno, getDateString(new Date(item.fecha))];
+              });
+                setDatosTabla(datos);
+            })
+            
+        
+    }, []);
 
 
     const showModeDsde = () => {
@@ -153,41 +102,11 @@ export default function Tardanzas() {
 
 
     const datos = {
-        tableHead: ['FOTO', 'NOMBRE', 'TURNO', 'FECHA'],
-        widthArr: [100, 200, 160, 150],
+        tableHead: [ 'NOMBRE', 'TURNO', 'FECHA'],
+        widthArr: [ 200, 160, 150],
 
     }
-
-    const buscarSugerencias = (inputText) => {
-       if(inputText.length > 0){
-        const newData = usuarios.filter(
-            function (item) {
-              const itemData = item ? item.toUpperCase() : ''.toUpperCase();
-              const textData = inputText.toUpperCase();
-              return itemData.indexOf(textData) > -1;
-            }
-          );
-          setSugerencias(newData);
-        }else{
-            setSugerencias([]);
-        }
-      };
     
-      const renderSugerencia = ({ item }) => (
-        <TouchableOpacity style={styles.sugerencia} onPress={() => {
-            setUsuarioFiltro(item);
-            setModalVisible(!modalVisible);
-            setSugerencias([]);
-        }}>
-            <Text style={{ color: 'gray', fontSize: 16, fontWeight: 'bold' }}>
-                {item} 
-            </Text>
-            
-
-        </TouchableOpacity>
-      );
-
-
     return (
         <View style={[styles.container, { marginTop: 0 }]}>
             <View style={styles.cabecera}>
@@ -208,11 +127,7 @@ export default function Tardanzas() {
                                             key={index}
                                             data={rowData}
                                             widthArr={datos.widthArr}
-                                            style={
-                                                index % 2 == 0
-                                                    ? styles.lista
-                                                    : [styles.lista, { backgroundColor: '#3d3b3a' }]
-                                            }
+                                            style={{ ...styles.lista, ...(index % 2 && { backgroundColor: '#302E34' }) }}
                                             textStyle={styles.texto_lista}
                                         />
                                     ))
@@ -287,7 +202,6 @@ export default function Tardanzas() {
                             <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Nombre" placeholderTextColor="#fff" 
                                 onChangeText={(text) => {
                                     setBuscarUsuario(text);
-                                    buscarSugerencias(text);
                                   }}
                             />
                             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAD354', padding: 10, borderRadius: 5, marginLeft: 20, marginRight: 10 }}>
@@ -295,22 +209,15 @@ export default function Tardanzas() {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.sugerenciasContainer}>
-                        <FlatList
-                            data={sugerencias}
-                            renderItem={renderSugerencia}
-                            keyExtractor={(item) => item}
-                        />
-                        </View>
-                                
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: "#FAD354" }}
-                            onPress={() => {
-                                setSugerencias([]);
-                                setModalVisible(!modalVisible);
-                            }}
-                        >
-                            <Text style={{color:'black'}}>Cerrar</Text>
-                        </TouchableHighlight>
+                            <TouchableHighlight
+                                style={{ ...styles.openButton, backgroundColor: "#FAD354" }}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                }}
+                            >
+                                <Text style={{color:'black'}}>Cerrar</Text>
+                            </TouchableHighlight>
+                    </View>
                     </View>
                 </View>
             </Modal>
