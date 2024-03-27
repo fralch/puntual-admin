@@ -21,6 +21,28 @@ export default function Tardanzas() {
          'Pedro',
     ]; //solo para pruebas
 
+    useEffect(() => {
+        // obtener datos de la api
+         const fechas = {fecha_inicio: date_desde, fecha_fin: date_hasta}
+        
+
+         axios.post('http://192.168.1.18:3000/Asistencias/byDates', fechas)
+            .then(function (response) {
+                
+                const datos = response.data.map((item) => {
+                    return {
+                        foto:item.foto,
+                        nombre: item.usuario.nombre,
+                        turno: item.turno,
+                        fecha: item.fecha ,
+                        hora: item.hora_entrada
+                    }
+                } );
+                setDatosTabla(datos);
+            })
+
+        
+    }, []);
 
     const varDateDesde = () => {
         const date = new Date();
