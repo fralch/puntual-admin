@@ -38,7 +38,7 @@ export default function Tardanzas() {
             .then(function (response) {
               
               const datos = response.data.map((item) => {
-                return [item.usuario.nombre, item.turno, getDateString(new Date(item.fecha))];
+                return [item.usuario.nombre, item.turno, getDateString(new Date(item.fecha)), item.minutos];
               });
                 setDatosTabla(datos);
             })
@@ -102,8 +102,18 @@ export default function Tardanzas() {
 
 
     const datos = {
-        tableHead: [ 'NOMBRE', 'TURNO', 'FECHA'],
-        widthArr: [ 200, 160, 150],
+        tableHead: [ 'NOMBRE', 'TURNO', 'FECHA', 'MINUTOS'],
+        widthArr: [ 200, 160, 150, 100],
+
+    }
+
+
+    const fnFiltrarUsuario  = () => {
+        const usuario = usuarioFiltro; 
+        
+        const datosFiltrados = datos_tabla.filter((item) => {return item[0].toLowerCase().includes(usuario.toLowerCase());});
+        setDatosTabla(datosFiltrados);
+        setModalVisible(!modalVisible);
 
     }
     
@@ -187,6 +197,22 @@ export default function Tardanzas() {
 
                     </View>
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 20, backgroundColor: '#FAD354', padding: 10, borderRadius: 5, marginBottom: 20 }}
+                         onPress={() => {
+                            // filtrar por fechas 
+                            const fechas_filtro = {fecha_inicio: date_desde, fecha_fin: date_hasta}
+                            
+                            axios.post('http://192.168.1.18:3000/tardanzas/byDates', fechas_filtro)
+                            .then(function (response) {
+                              
+                              const datos = response.data.map((item) => {
+                                return [item.usuario.nombre, item.turno, getDateString(new Date(item.fecha)), item.minutos];
+                              });
+                                setDatosTabla(datos);
+                            })
+
+
+                       
+                        }}
                        
                     >
                         <Text style={{ color: '#000', fontSize: 16, fontWeight: 'bold' }}>Buscar</Text>
@@ -201,16 +227,18 @@ export default function Tardanzas() {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 20 }}>
                             <TextInput style={{ backgroundColor: '#3d3b3a', borderRadius: 5, padding: 5, marginHorizontal: 10, height: 40, width: 200, color: '#fff' }} placeholder="Nombre" placeholderTextColor="#fff" 
                                 onChangeText={(text) => {
-                                    setBuscarUsuario(text);
+                                    setUsuarioFiltro(text);
                                   }}
                             />
-                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAD354', padding: 10, borderRadius: 5, marginLeft: 20, marginRight: 10 }}>
+                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FAD354', padding: 10, borderRadius: 5, marginLeft: 20, marginRight: 10 }}
+                                onPress={() => fnFiltrarUsuario()}
+                            >
                                 <FontAwesome name="search" size={24} color="black" />
                             </TouchableOpacity>
                         </View>
                         <View style={styles.sugerenciasContainer}>
                             <TouchableHighlight
-                                style={{ ...styles.openButton, backgroundColor: "#FAD354" }}
+                                style={{ ...styles.openButton, backgroundColor: "#FAD354",  alignItems:"center"}}
                                 onPress={() => {
                                     setModalVisible(!modalVisible);
                                 }}
